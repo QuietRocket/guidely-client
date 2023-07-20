@@ -21,9 +21,28 @@ generator.forBlock["statement"] = function (
   );
 };
 
+generator.forBlock["instruction"] = function (
+  block: Block,
+  generator: Blockly.CodeGenerator
+) {
+  return (
+    "[INST]" +
+    generator.statementToCode(block, "statements") +
+    "[/INST]" +
+    generator.blockToCode(block.getNextBlock())
+  );
+};
+
 generator.forBlock["string"] = function (
   block: Block,
   generator: Blockly.CodeGenerator
 ) {
   return block.getFieldValue("text");
+};
+
+generator.forBlock["newline"] = function (
+  block: Block,
+  generator: Blockly.CodeGenerator
+) {
+  return "\n" + generator.blockToCode(block.getNextBlock());
 };

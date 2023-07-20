@@ -6,7 +6,7 @@ Blockly.Blocks["program"] = {
   init: function (this: Block) {
     this.appendDummyInput().appendField("program");
 
-    this.appendStatementInput("statements").setCheck("statement");
+    this.appendStatementInput("statements");
 
     this.setColour("#be1010");
   },
@@ -15,6 +15,19 @@ Blockly.Blocks["program"] = {
 Blockly.Blocks["statement"] = {
   init: function (this: Block) {
     this.appendValueInput("VALUE").setCheck(null).appendField("statement");
+
+    this.setPreviousStatement(true, "statement");
+    this.setNextStatement(true, "statement");
+
+    this.setColour("#0f538a");
+  },
+};
+
+Blockly.Blocks["instruction"] = {
+  init: function (this: Block) {
+    this.appendDummyInput().appendField("instruction");
+
+    this.appendStatementInput("statements");
 
     this.setPreviousStatement(true, "statement");
     this.setNextStatement(true, "statement");
@@ -33,3 +46,12 @@ Blockly.Blocks["string"] = {
     this.setOutput(true, null);
   },
 };
+
+Blockly.Blocks["newline"] = {
+  init: function (this: Block) {
+    this.appendDummyInput().appendField("newline");
+
+    this.setPreviousStatement(true, "statement");
+    this.setNextStatement(true, "statement");
+  }
+}

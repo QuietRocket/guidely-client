@@ -19,7 +19,15 @@ const toolbox = {
     },
     {
       kind: "block",
+      type: "instruction",
+    },
+    {
+      kind: "block",
       type: "string",
+    },
+    {
+      kind: "block",
+      type: "newline",
     },
   ],
 };
@@ -83,9 +91,9 @@ export default function Home() {
         className="flex-initial h-full"
       />
       <div id="blocklyDiv" ref={blocklyDivRef} className="absolute" />
-      <div id="output" className="flex-none h-72">
+      <p id="output" className="flex-none h-72">
         {output}
-      </div>
+      </p>
     </div>
   );
 }
