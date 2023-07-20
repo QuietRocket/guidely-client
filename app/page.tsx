@@ -40,6 +40,7 @@ export default function Home() {
 
   const [output, setOutput] = useState<string>("");
   const [executed, setExecuted] = useState<string>("");
+  const [live, setLive] = useState<boolean>(false);
 
   const onResize = () => {
     if (!blocklyAreaRef.current || !blocklyDivRef.current) return;
@@ -55,21 +56,25 @@ export default function Home() {
     Blockly.svgResize(workspace);
   };
 
+  const updateExecuted = async () => {
+    const response = await fetch("/api/run", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ program: output }),
+    });
+
+    const responseJson = await response.json();
+
+    setExecuted(responseJson["result"]);
+  };
+
   useEffect(() => {
-    (async () => {
-      const response = await fetch("/api/run", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ program: output }),
-      });
+    if (!live) return;
 
-      const responseJson = await response.json();
-
-      setExecuted(responseJson["result"]);
-    })();
-  }, [output]);
+    updateExecuted();
+  }, [output, live]);
 
   useEffect(() => {
     workspace = Blockly.inject(blocklyDivRef.current!, {
@@ -110,8 +115,27 @@ export default function Home() {
       <div id="blocklyDiv" ref={blocklyDivRef} className="absolute" />
 
       <div className="flex flex-row flex-none h-72">
-        <div className="flex-initial w-1/2 h-full whitespace-pre-line">
+        <div className="relative flex-initial w-1/2 h-full whitespace-pre-line">
           <p>{output}</p>
+          <div className="absolute bottom-0 right-0 space-x-2 mb-3 mr-3">
+            {!live && (
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onClick={updateExecuted}
+              >
+                Run
+              </button>
+            )}
+
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={() => {
+                setLive(!live);
+              }}
+            >
+              {live ? "Stop" : "Live"}
+            </button>
+          </div>
         </div>
         <div className="flex-initial w-1/2 h-full whitespace-pre-line">
           <p>{executed}</p>
