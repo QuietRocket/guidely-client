@@ -39,6 +39,7 @@ export default function Home() {
   let workspace: Blockly.WorkspaceSvg;
 
   const [output, setOutput] = useState<string>("");
+  const [executed, setExecuted] = useState<string>("");
 
   const onResize = () => {
     if (!blocklyAreaRef.current || !blocklyDivRef.current) return;
@@ -53,6 +54,22 @@ export default function Home() {
 
     Blockly.svgResize(workspace);
   };
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch("/api/run", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ program: output }),
+      });
+
+      const responseJson = await response.json();
+
+      setExecuted(responseJson["result"]);
+    })();
+  }, [output]);
 
   useEffect(() => {
     workspace = Blockly.inject(blocklyDivRef.current!, {
@@ -91,9 +108,15 @@ export default function Home() {
         className="flex-initial h-full"
       />
       <div id="blocklyDiv" ref={blocklyDivRef} className="absolute" />
-      <p id="output" className="flex-none h-72">
-        {output}
-      </p>
+
+      <div className="flex flex-row flex-none h-72">
+        <div className="flex-initial w-1/2 h-full whitespace-pre-line">
+          <p>{output}</p>
+        </div>
+        <div className="flex-initial w-1/2 h-full whitespace-pre-line">
+          <p>{executed}</p>
+        </div>
+      </div>
     </div>
   );
 }
