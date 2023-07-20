@@ -1,38 +1,25 @@
 "use client";
 
 import Blockly from "blockly";
-import { useEffect, useRef } from "react";
+import "./blocks";
+import { useState, useEffect, useRef } from "react";
+
+import { generator } from "./generator";
 
 const toolbox = {
   kind: "flyoutToolbox",
   contents: [
     {
       kind: "block",
-      type: "controls_if",
+      type: "program",
     },
     {
       kind: "block",
-      type: "controls_repeat_ext",
+      type: "statement",
     },
     {
       kind: "block",
-      type: "logic_compare",
-    },
-    {
-      kind: "block",
-      type: "math_number",
-    },
-    {
-      kind: "block",
-      type: "math_arithmetic",
-    },
-    {
-      kind: "block",
-      type: "text",
-    },
-    {
-      kind: "block",
-      type: "text_print",
+      type: "string",
     },
   ],
 };
@@ -40,7 +27,10 @@ const toolbox = {
 export default function Home() {
   const blocklyAreaRef = useRef<HTMLDivElement>(null);
   const blocklyDivRef = useRef<HTMLDivElement>(null);
-  let workspace: any;
+
+  let workspace: Blockly.WorkspaceSvg;
+
+  const [output, setOutput] = useState<string>("");
 
   const onResize = () => {
     if (!blocklyAreaRef.current || !blocklyDivRef.current) return;
@@ -61,16 +51,41 @@ export default function Home() {
       toolbox: toolbox,
     });
 
+    const workspaceState = localStorage.getItem("workspace");
+    if (workspaceState) {
+      Blockly.serialization.workspaces.load(
+        JSON.parse(workspaceState),
+        workspace
+      );
+    }
+
+    workspace.addChangeListener(() => {
+      setOutput(generator.workspaceToCode(workspace));
+
+      const state = Blockly.serialization.workspaces.save(workspace);
+      localStorage.setItem("workspace", JSON.stringify(state));
+    });
+
     window.addEventListener("resize", onResize);
     onResize();
 
-    return () => window.removeEventListener("resize", onResize);
+    return () => {
+      window.removeEventListener("resize", onResize);
+      workspace.dispose();
+    };
   }, []);
 
   return (
-    <div className="w-screen h-screen">
-      <div id="blocklyArea" ref={blocklyAreaRef} className="w-full h-full" />
+    <div className="w-screen h-screen flex flex-col">
+      <div
+        id="blocklyArea"
+        ref={blocklyAreaRef}
+        className="flex-initial h-full"
+      />
       <div id="blocklyDiv" ref={blocklyDivRef} className="absolute" />
+      <div id="output" className="flex-none h-72">
+        {output}
+      </div>
     </div>
   );
 }
