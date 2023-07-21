@@ -1,40 +1,12 @@
 "use client";
 
 import Blockly from "blockly";
-import "./blocks";
+import "./blockly/blocks";
 import { useState, useEffect, useRef } from "react";
 
-import { generator } from "./generator";
+import { generator } from "./blockly/generator";
 
-const toolbox = {
-  kind: "flyoutToolbox",
-  contents: [
-    {
-      kind: "block",
-      type: "program",
-    },
-    {
-      kind: "block",
-      type: "statement",
-    },
-    {
-      kind: "block",
-      type: "instruction",
-    },
-    {
-      kind: "block",
-      type: "string",
-    },
-    {
-      kind: "block",
-      type: "newline",
-    },
-    {
-      kind: "block",
-      type: "each",
-    },
-  ],
-};
+import { toolbox } from "./blockly/toolbox";
 
 export default function Home() {
   const blocklyAreaRef = useRef<HTMLDivElement>(null);
