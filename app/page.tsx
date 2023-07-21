@@ -29,6 +29,10 @@ const toolbox = {
       kind: "block",
       type: "newline",
     },
+    {
+      kind: "block",
+      type: "each",
+    },
   ],
 };
 

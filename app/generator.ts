@@ -46,3 +46,18 @@ generator.forBlock["newline"] = function (
 ) {
   return "\n" + generator.blockToCode(block.getNextBlock());
 };
+
+generator.forBlock["each"] = function (
+  block: Block,
+  generator: Blockly.CodeGenerator
+) {
+  return (
+    "{{#each " +
+    generator.blockToCode(
+      block.getInput("list")?.connection?.targetBlock() ?? null
+    ) +
+    " }}" +
+    generator.statementToCode(block, "statements") +
+    "{{/each}}" + generator.blockToCode(block.getNextBlock())
+  );
+};

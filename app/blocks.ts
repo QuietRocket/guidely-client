@@ -53,5 +53,20 @@ Blockly.Blocks["newline"] = {
 
     this.setPreviousStatement(true, "statement");
     this.setNextStatement(true, "statement");
-  }
-}
+  },
+};
+
+Blockly.Blocks["each"] = {
+  init: function (this: Block) {
+    this.appendDummyInput().appendField("each");
+
+    this.appendValueInput("list").setCheck(null).appendField("list");
+
+    this.appendStatementInput("statements");
+
+    this.setPreviousStatement(true, "statement");
+    this.setNextStatement(true, "statement");
+
+    this.setColour("#198209");
+  },
+};
