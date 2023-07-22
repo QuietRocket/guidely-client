@@ -12,7 +12,7 @@ export default function Home() {
 
   return (
     <div className="h-screen flex flex-col">
-      <div className="h-10 bg-purple-200">H</div>
+      <div className="h-10">Guidely</div>
 
       <div className="flex-grow flex">
         <div className="flex-grow flex flex-col">
