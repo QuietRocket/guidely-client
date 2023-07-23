@@ -97,19 +97,19 @@ export default function Home() {
             <Workspace onGenerate={setGenerated} />
           </div>
           <div className="h-56 flex flex-row whitespace-pre-line mx-2">
-            <div className="flex-1">{generated}</div>
+            <div className="flex-1 overflow-scroll">{generated}</div>
             <div className="divider divider-horizontal" />
-            <div className="flex-1">{responseLlm}</div>
+            <div className="flex-1 overflow-scroll">{responseLlm}</div>
           </div>
         </div>
         <div
           style={
             {
               "--jse-theme-color": "#383e42",
-              "--jse-theme-color-highlight": "#fff",
+              "--jse-theme-color-highlight": "#545a5e",
             } as React.CSSProperties
           }
-          className="w-96"
+          className="w-96 flex-none"
         >
           <Editor
             content={variables}
