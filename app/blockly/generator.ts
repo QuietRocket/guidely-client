@@ -33,6 +33,18 @@ generator.forBlock["instruction"] = function (
   );
 };
 
+generator.forBlock["system"] = function (
+  block: Block,
+  generator: Blockly.CodeGenerator
+) {
+  return (
+    "<<SYS>>" +
+    generator.statementToCode(block, "statements") +
+    "<</SYS>>" +
+    generator.blockToCode(block.getNextBlock())
+  );
+};
+
 generator.forBlock["string"] = function (
   block: Block,
   generator: Blockly.CodeGenerator
@@ -58,6 +70,14 @@ generator.forBlock["each"] = function (
     ) +
     " }}" +
     generator.statementToCode(block, "statements") +
-    "{{/each}}" + generator.blockToCode(block.getNextBlock())
+    "{{/each}}" +
+    generator.blockToCode(block.getNextBlock())
   );
+};
+
+generator.forBlock["gen"] = function (
+  block: Block,
+  generator: Blockly.CodeGenerator
+) {
+  return '{{gen stop="\n"}}' + generator.blockToCode(block.getNextBlock());
 };

@@ -36,6 +36,19 @@ Blockly.Blocks["instruction"] = {
   },
 };
 
+Blockly.Blocks["system"] = {
+  init: function (this: Block) {
+    this.appendDummyInput().appendField("system");
+
+    this.appendStatementInput("statements");
+
+    this.setPreviousStatement(true, "statement");
+    this.setNextStatement(true, "statement");
+
+    this.setColour("#0f538a");
+  },
+};
+
 Blockly.Blocks["string"] = {
   init: function (this: Block) {
     this.appendDummyInput().appendField(
@@ -63,6 +76,17 @@ Blockly.Blocks["each"] = {
     this.appendValueInput("list").setCheck(null).appendField("list");
 
     this.appendStatementInput("statements");
+
+    this.setPreviousStatement(true, "statement");
+    this.setNextStatement(true, "statement");
+
+    this.setColour("#198209");
+  },
+};
+
+Blockly.Blocks["gen"] = {
+  init: function (this: Block) {
+    this.appendDummyInput().appendField("gen");
 
     this.setPreviousStatement(true, "statement");
     this.setNextStatement(true, "statement");

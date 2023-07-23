@@ -15,6 +15,10 @@ export const toolbox = {
     },
     {
       kind: "block",
+      type: "system",
+    },
+    {
+      kind: "block",
       type: "string",
     },
     {
@@ -24,6 +28,10 @@ export const toolbox = {
     {
       kind: "block",
       type: "each",
+    },
+    {
+      kind: "block",
+      type: "gen",
     },
   ],
 };
