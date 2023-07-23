@@ -1,3 +1,5 @@
+"use client";
+
 import Blockly from "blockly";
 
 import "./blocks";

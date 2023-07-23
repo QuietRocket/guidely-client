@@ -28,7 +28,6 @@ export default function Editor(props: JSONEditorPropsOptional) {
   // update props
   useEffect(() => {
     if (refEditor.current) {
-      console.log("update props", props);
       refEditor.current.updateProps(props);
     }
   }, [props]);
