@@ -1,10 +1,12 @@
 "use client";
 
-import Editor from "./Editor";
 import { type JSONContent } from "vanilla-jsoneditor";
 
-import Workspace from "./blockly/workspace";
+import Workspace from "../components/blockly/workspace";
 import { useState, useEffect } from "react";
+
+import dynamic from "next/dynamic";
+const Editor = dynamic(() => import("../components/Editor"), { ssr: false });
 
 export default function Home() {
   const [generated, setGenerated] = useState<string>("");

@@ -1,5 +1,3 @@
-"use client";
-
 import { JSONEditor, type JSONEditorPropsOptional } from "vanilla-jsoneditor";
 import { useEffect, useRef } from "react";
 
